@@ -1,0 +1,30 @@
+---
+
+- name: install i3
+  package: name=i3 state=latest
+
+- name: copy i3 config
+  template: src=config.j2 dest=/home/dgrauet/.config/i3/config owner=dgrauet group=dgrauet
+
+- name: copy playerctl package
+  file: src=playerctl-0.5.0_amd64.deb dest=/tmp/playerctl-0.5.0_amd64.deb owner=dgrauet group=dgrauet mode=0644
+
+- apt: deb=/tmp/playerctl-0.5.0_amd64.deb
+
+- package: name=feh state=latest
+
+- name: copy wallpaper
+  file: src=1379510431_37888.jpg dest=/home/dgrauet/Images/wallpaper.jpg owner=dgrauet group=dgrauet mode=0644
+
+- package: name=arandr state=latest
+
+- apt_key: keyserver=keyserver.ubuntu.com id=BBEBDCB318AD50EC6865090613B00F1FD2C19886
+
+- apt_repository: repo='deb http://repository.spotify.com stable non-free' state=present
+
+- apt: name=spotify-client update_cache=yes
+
+- file: path=/home/dgrauet/.fonts state=directory mode=0755
+
+- name: copy awesome fonts
+  file: src=fontawesome-webfont.ttf dest=/home/dgrauet/.fonts/fontawesome-webfont.ttf owner=dgrauet group=dgrauet mode=0644
